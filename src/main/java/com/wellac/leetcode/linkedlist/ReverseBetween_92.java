@@ -9,10 +9,11 @@ public class  ReverseBetween_92 {
         ListNode head = buildData();
         printList(head);
         System.out.println("-------------------------");
-        head = reverseBetween(head,2,4);
+        head = reverseBetween_1(head,2,4);
+//        head = reverseBetween_2(head,2,4);
         printList(head);
     }
-    public ListNode reverseBetween(ListNode head, int m, int n) {
+    public ListNode reverseBetween_1(ListNode head, int m, int n) {
 
         //记录反转部分反转后的头节点和尾节点
         ListNode new_head = null;
@@ -73,6 +74,38 @@ public class  ReverseBetween_92 {
             //当new_head_prev为null时，说明是从第一个节点开始反转的，直接返回反转区域反转后的头节点即可
             return new_head;
         }
+
+    }
+
+    public ListNode reverseBetween_2(ListNode head, int m, int n) {
+
+        //创建虚拟头节点，并将其next域指向当前链表
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+
+        //找到并记录反转区域的前驱节点
+        ListNode new_prev = dummy;
+        for(int i =1;i<m;i++){
+            new_prev = new_prev.next;
+        }
+
+        //记录反转区域反转后的尾节点
+        ListNode new_tail = new_prev.next;
+
+        //迭代反转区域将其节点以头插法的方式插入到new_prev后
+        head = new_prev.next;
+        for(int i=m;i<=n;i++){
+            ListNode temp = head.next;
+            head.next = new_prev.next;
+            new_prev.next = head;
+            head = temp;
+        }
+
+        //将反转区域反转后的尾节点的next域指向其后继
+        new_tail.next = head;
+
+        //返回去掉虚拟头节点的链表
+        return dummy.next;
 
     }
 
