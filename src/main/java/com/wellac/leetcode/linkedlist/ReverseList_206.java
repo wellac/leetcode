@@ -1,4 +1,4 @@
-package com.wellac.leetcode;
+package com.wellac.leetcode.linkedlist;
 
 import org.junit.Test;
 

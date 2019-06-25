@@ -1,8 +1,8 @@
-package com.wellac.leetcode;
+package com.wellac.leetcode.linkedlist;
 
 import org.junit.Test;
 
-public class ReverseBetween_92 {
+public class  ReverseBetween_92 {
 
     @Test
     public void test() {
