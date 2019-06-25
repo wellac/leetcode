@@ -57,16 +57,6 @@ public class ReverseList_206 {
         return new_head;
     }
 
-    //Definition for singly-linked list.
-    class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
-    }
-
     private void printList(ListNode head){
         while (head != null) {
             System.out.println(head.val);
