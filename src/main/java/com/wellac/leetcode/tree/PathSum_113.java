@@ -17,16 +17,17 @@ public class PathSum_113 {
     private void helper(TreeNode root, int sum, List<Integer> path) {
         if (root == null) return;
 
-        List<Integer> list = new ArrayList<>(path);
-        list.add(root.val);
+        path.add(root.val);
 
         if (root.left == null && root.right == null) {
             if (sum == root.val) {
-                res.add(list);
-                return;
+                res.add(new ArrayList<>(path));
             }
+        } else {
+            helper(root.left, sum - root.val, path);
+            helper(root.right, sum - root.val, path);
         }
-        helper(root.left, sum - root.val, list);
-        helper(root.right, sum - root.val, list);
+        //回溯
+        path.remove(path.size() - 1);
     }
 }
