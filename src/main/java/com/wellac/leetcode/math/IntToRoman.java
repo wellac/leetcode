@@ -8,8 +8,9 @@ import org.junit.Test;
 public class IntToRoman {
     @Test
     public void test() {
-        System.out.println(intToRoman(3));
-        System.out.println(intToRoman(4));
+        for (int i = 0; i < 3999; i++) {
+            System.out.println(intToRoman(i));
+        }
     }
 
     public String intToRoman(int num) {
