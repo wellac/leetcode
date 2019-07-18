@@ -1,7 +1,7 @@
 package com.wellac.leetcode.dp;
 
 /**
- *
+ * 198. 打家劫舍
  */
 public class Rob_198 {
     public int rob(int[] nums) {
@@ -16,20 +16,15 @@ public class Rob_198 {
 
 
     private int solve_2(int[] nums) {
-        int len = nums.length;
-        if (len == 0) return 0;
-        if (len == 1) return nums[0];
-        if (len == 2) return Math.max(nums[0], nums[1]);
+        int pre2 = 0;
+        int pre1 = 0;
 
-        int res1 = nums[0];
-        int res2 = Math.max(nums[0], nums[1]);
-
-        for (int i = 2; i < len; i++) {
-            int res3 = Math.max(nums[i] + res1, res2);
-            res1 = res2;
-            res2 = res3;
+        for (int i = 0; i < nums.length; i++) {
+            int curr = Math.max(nums[i] + pre2, pre1);
+            pre2 = pre1;
+            pre1 = curr;
         }
 
-        return res2;
+        return pre1;
     }
 }
