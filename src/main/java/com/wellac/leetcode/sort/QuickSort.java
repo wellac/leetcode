@@ -11,39 +11,33 @@ public class QuickSort {
     @Test
     public void test() {
         int[] arr = {1, 4, 2, 3, 7, 5, 6, 8};
-        sort(arr, 0, arr.length - 1);
+        quickSort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
 
-    private void sort(int[] arr, int left, int right) {
-        if (left > right) return;
-
-        int mid = partition(arr, left, right);
-
-        sort(arr, left, mid - 1);
-        sort(arr, mid + 1, right);
-    }
-
-    private int partition(int[] arr, int left, int right) {
-        int baseValue = arr[left];//设置基准
-        int baseIndex = left;//记录基准的下标
-        while (left < right) {
-            while (arr[right] >= baseValue && left < right) {
-                right--;
+    private void quickSort(int[] arr, int start, int end) {
+        if (start >= end) return;
+        int i = start;
+        int j = end;
+        while (i < j) {
+            while (arr[j] >= arr[start] && i < j) {
+                j--;
             }
-            while (arr[left] <= baseValue &&left < right  ) {
-                left++;
+            while (arr[i] <= arr[start] && i < j) {
+                i++;
             }
-            if (left != right) {
-                int temp = arr[left];
-                arr[left] = arr[right];
-                arr[right] = temp;
+            if (i != j) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
         }
-        if(left!=baseIndex){
-            arr[baseIndex] = arr[left];
-            arr[left] = baseValue;
+        if (i != start) {
+            int temp = arr[i];
+            arr[start] = arr[i];
+            arr[i] = temp;
         }
-        return left;
+        quickSort(arr, start, i - 1);
+        quickSort(arr, i + 1, end);
     }
 }
