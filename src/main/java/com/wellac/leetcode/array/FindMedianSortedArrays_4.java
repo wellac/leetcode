@@ -13,37 +13,35 @@ public class FindMedianSortedArrays_4 {
     }
 
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int len1 = nums1.length;
-        int len2 = nums2.length;
-
         //防止二分搜索时m2在越界
-        if (len1 > len2) {
+        if (nums1.length > nums2.length) {
             return findMedianSortedArrays(nums2, nums1);
         }
+        double res = 0;//返回的结果
 
-        //用二分搜索法求数组num1中放在左边区的个数
-        int min = 0;//最少放0个
-        int max = len1;//最多放len1个
+        int len = nums1.length + nums2.length;   //两个数组的总长度
 
-        while (min < max) {
-            int m1 = min + (max - min) / 2;       //num1中放在左边区的个数
-            int m2 = (len1 + len2 + 1) / 2 - m1;   //num2中放在左边区的个数
-            if (nums1[m1] < nums2[m2 - 1]) {
-                min = m1 + 1;
-            } else {
-                max = m1;
+        //用二分搜索法求数组num1中放在左边区的个数的范围[cutL,cutR]
+        for (int cutL = 0, cutR = nums1.length; cutL <= cutR; ) {
+            int cut1 = cutL + (cutR - cutL) / 2;//num1中放在左边区的个数
+            int cut2 = len / 2 - cut1;  //num2中放在左边区的个数,这样当2*(cut1+cut2) <= len(len为偶数时取等号)
+            double L1 = (cut1 == 0) ? Integer.MIN_VALUE : nums1[cut1 - 1];
+            double L2 = (cut2 == 0) ? Integer.MIN_VALUE : nums2[cut2 - 1];
+            double R1 = (cut1 == nums1.length) ? Integer.MAX_VALUE : nums1[cut1];
+            double R2 = (cut2 == nums2.length) ? Integer.MAX_VALUE : nums2[cut2];
+            if (L1 > R2) {          //cut1应该向左移动
+                cutR = cut1 - 1;
+            } else if (L2 > R1) {   //cut1应该向右移动
+                cutL = cut1 + 1;
+            } else {                //找到符合L1<=R2 && L2<=R1的分割点
+                if (len % 2 == 1) { //当len为奇数时
+                    res = Math.min(R1, R2);
+                } else {            //当len为偶数时
+                    res = (Math.max(L1, L2) + Math.min(R1, R2)) / 2;
+                }
+                break;
             }
         }
-
-        int m1 = max;
-        int m2 = (len1 + len2 + 1) / 2 - m1;
-
-        int c1 = Math.max(m1 == 0 ? Integer.MIN_VALUE : nums1[m1 - 1], m2 == 0 ? Integer.MIN_VALUE : nums2[m2 - 1]);
-        if ((len1 + len2) % 2 == 1) {
-            return c1;
-        }
-
-        int c2 = Math.min(m1 == len1 ? Integer.MAX_VALUE : nums1[m1], m2 == len2 ? Integer.MAX_VALUE : nums2[m2]);
-        return (c1 + c2) * 0.5;
+        return res;
     }
 }
