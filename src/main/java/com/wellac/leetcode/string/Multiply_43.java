@@ -8,39 +8,33 @@ import org.junit.Test;
 public class Multiply_43 {
     @Test
     public void test() {
-        System.out.println(multiply("99999", "99999"));
+        System.out.println(multiply("12", "13"));
         System.out.println(999 * 999);
     }
 
     public String multiply(String num1, String num2) {
-        if (num1.equals("0") || num2.equals("0")) {
-            return "0";
-        }
-        int len1 = num1.length();
-        int len2 = num2.length();
+        int[] mul = new int[num1.length() + num2.length()];
 
-        StringBuilder res = new StringBuilder(len1 + len2);
-
-        /**
-         *  curr:当前计算的位置（1：个位，2：百位）
-         *  carry：当前计算的进位
-         */
-        for (int curr = 1, carry = 0; curr < len1 + len2 || carry > 0; curr++) {
-            System.out.println(curr);
-            // fromNum1:num1计算的位置（1：个位，2：百位;1 <= fromNum1 <= len1）
-            // fromNum2:num2计算的位置（1：个位，2：百位;1 <= fromNum2 <= len2）
-            // 满足关系:fromNum1 + fromNum2 - 1 = curr => fromNum2 = curr - fromNum1 + 1
-            // 位置和下标的关系:index = len - fromNum
-            for (int fromNum1 = Math.min(curr, len1),
-                 fromNum2 = curr - fromNum1 + 1;
-                 fromNum1 >= 1 && fromNum2 <= len2;
-                 fromNum1--, fromNum2++) {
-                carry += (num1.charAt(len1 - fromNum1) - '0') * (num2.charAt(len2 - fromNum2) - '0');
+        for(int i = 0; i <num1.length(); i++ ){
+            for(int j = 0; j < num2.length(); j++){
+                int temp = (num1.charAt(i)-'0')*(num2.charAt(j)-'0');
+                mul[i+j] += temp/10;
+                mul[i+j+1] += temp%10;
             }
-
-            res.append(carry % 10);
-            carry /= 10;
         }
-        return res.reverse().toString();
+        for(int i = mul.length-1;i>0;i--){
+            int temp =mul[i];
+            mul[i] = temp%10;
+            mul[i-1] += temp/10;
+        }
+
+        StringBuilder res = new StringBuilder();
+        for(int i = 0 ;i < mul.length; i++){
+            if(mul[i]==0 &&res.length()==0){
+                continue;
+            }
+            res.append(mul[i]);
+        }
+        return res.toString();
     }
 }
