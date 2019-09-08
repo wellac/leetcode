@@ -29,16 +29,11 @@ public class RomanToInt_13 {
     public int romanToInt(String s) {
         int res = 0;
         for (int i = 0; i < s.length(); i++) {
-            int curr = map.get(s.charAt(i));
-            if (i < s.length() - 1) {
-                int next = map.get(s.charAt(i + 1));
-                if (next > curr) {
-                    res = res + (next - curr);
-                    i++;
-                    continue;
-                }
+            res = res + map.get(s.charAt(i));
+            //当当前字符表示数值大于前一个字符表示数值时，要减去前一个字符和当前字符多加的数值
+            if (i > 0 && map.get(s.charAt(i)) > map.get(s.charAt(i - 1))) {
+                res = res - 2 * map.get(s.charAt(i - 1));
             }
-            res = res + curr;
         }
         return res;
     }
